@@ -195,6 +195,12 @@ The root model is [GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash).
 Read [NOTICE.md](NOTICE.md) before serving: DFlash2 makes the selected stack
 non-commercial under its published terms.
 
+## Fleet defaults changed in this fork
+
+`cluster.env.example` now defaults `EXL3_FAT_KERNEL=0` and
+`VLLM_PREFIX_CACHE_RETENTION_INTERVAL_SWA=0`, and the launcher forwards the latter to the ranks.
+The symptom, the block-id-pool mechanism and the measurements are in [DEFAULTS.md](DEFAULTS.md).
+
 ## Prepare, configure and launch
 
 Follow [REQUIREMENTS.md](REQUIREMENTS.md). Build or obtain the upstream image
