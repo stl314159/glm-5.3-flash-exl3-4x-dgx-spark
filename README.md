@@ -205,7 +205,18 @@ The symptom, the block-id-pool mechanism and the measurements are in [DEFAULTS.m
 
 Follow [REQUIREMENTS.md](REQUIREMENTS.md). Build or obtain the upstream image
 at the pinned revision, retain its matching `overlay/`, and cache the pinned
-model snapshots on each rank. Configure a site-specific file from the exported
+model snapshots on each rank.
+
+This fork adds `recipe/build-image.sh`, which does the image part end to end from the
+site config: it checks out the MiaAI runtime root at a pinned commit, installs this
+recipe's chat template into it, builds the image named in `RANK_IMG`, proves the
+sparse-MLA slice patch still recognises the backend file, and ships image and root to
+the worker ranks:
+
+```bash
+recipe/build-image.sh "$CFG" 8f29c6d          # build, verify, ship
+SHIP_IPS="10.0.1.2 10.0.1.3 10.0.1.4" recipe/build-image.sh "$CFG" 8f29c6d ship   # transfer over a LAN path while the fabric serves
+``` Configure a site-specific file from the exported
 repository root:
 
 ```bash
