@@ -66,3 +66,15 @@ The E2 fat-expert prefill kernel was disabled while it was the suspect. Measured
 single-stream decode 42.6 tok/s (35.6 with it on), cold prefill 1,012-1,142 tok/s (unchanged),
 and a smoother incumbent stream during a peer's prefill (max gap 1.1 s vs 6 s). No reason to
 turn it back on for this fleet; `1` restores the upstream behavior.
+
+## Deployment log
+
+- **2026-09-15** f906ee9 image, these defaults: four sessions at 200K to 450K tokens decoding at 70 to 96 tok/s
+  aggregate after warm-up, 34 ms steps.
+- **2026-09-16** rebuilt from MiaAI main 8f29c6d with `recipe/build-image.sh` (same tunables; picks up the KV
+  capacity boot log, per-request no-store, InstantTensor, and the decode-floor restart fix; mixed prefill stays `off`).
+  Verified: slice patch PASS, retention line `[None,None,None,None,None,None,0]`, single-stream 41.4 tok/s at 68 ms
+  steps vs 42.6 on f906ee9. The capacity log corrected the arithmetic above: TP4 pages are 1,792 tokens, the pool is
+  3,185 ids, and a cached segment costs 33 ids dense (28 of them the drafter) or 5 with the drafter at boundary-only
+  retention, about 1.14M tokens of cached conversation across all sessions.
+- **2026-09-17** stack stopped to run the DeepSeek-V4.1-Flash TP4 recipe on the same four nodes; config unchanged.
