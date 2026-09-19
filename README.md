@@ -214,8 +214,8 @@ sparse-MLA slice patch still recognises the backend file, and ships image and ro
 the worker ranks:
 
 ```bash
-recipe/build-image.sh "$CFG" 8f29c6d          # build, verify, ship
-SHIP_IPS="10.0.1.2 10.0.1.3 10.0.1.4" recipe/build-image.sh "$CFG" 8f29c6d ship   # transfer over a LAN path while the fabric serves
+recipe/build-image.sh "$CFG" ca85576          # build, verify, ship
+SHIP_IPS="10.0.1.2 10.0.1.3 10.0.1.4" recipe/build-image.sh "$CFG" ca85576 ship   # transfer over a LAN path while the fabric serves
 ``` Configure a site-specific file from the exported
 repository root:
 
